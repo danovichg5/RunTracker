@@ -1,5 +1,4 @@
 <resources>
-     <string name="action_settings">Settings</string>
     <string name="app_name">RunTracker</string>
     <string name="started">Started:</string>
     <string name="latitude">Latitude:</string>
@@ -10,4 +9,5 @@
     <string name="stop">Stop</string>
     <string name="gps_enabled">GPS Enabled</string>
     <string name="gps_disabled">GPS Disabled</string>
+    <string name="new_run">New Run</string>
 </resources>
