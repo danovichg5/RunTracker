@@ -22,15 +22,13 @@ import com.bignerdranch.android.runtracker.RunDatabaseHelper.RunCursor;
 public class RunListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
     private static final int REQUEST_NEW_RUN = 0;
     
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //Initialize the loader to load the list of runs
+        // initialize the loader to load the list of runs
         getLoaderManager().initLoader(0, null, this);
     }
-    
     
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -50,7 +48,6 @@ public class RunListFragment extends ListFragment implements LoaderCallbacks<Cur
         // stop using the cursor (via the adapter)
         setListAdapter(null);
     }
-
     
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -60,21 +57,21 @@ public class RunListFragment extends ListFragment implements LoaderCallbacks<Cur
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.menu_item_new_run:
-            Intent i = new Intent(getActivity(), RunActivity.class);
-            startActivityForResult(i, REQUEST_NEW_RUN);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_item_new_run) {
+			Intent i = new Intent(getActivity(), RunActivity.class);
+			startActivityForResult(i, REQUEST_NEW_RUN);
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
     }
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_NEW_RUN == requestCode) {
-            //Restart the loader to get any new run available
-        	getLoaderManager().restartLoader(0, null, this);
+            // restart the loader to get any new run available
+            getLoaderManager().restartLoader(0, null, this);
         }
     }
 
@@ -85,23 +82,21 @@ public class RunListFragment extends ListFragment implements LoaderCallbacks<Cur
         i.putExtra(RunActivity.EXTRA_RUN_ID, id);
         startActivity(i);
     }
-    
-    
-    private static class RunListCursorLoader extends SQLiteCursorLoader
-    {
-    	public RunListCursorLoader(Context context)
-    	{
-    		super(context);
-    	}
-    	
-    	@Override
-    	protected Cursor loadCursor()
-    	{
-    		//Query the list of runs
-    		return RunManager.get(getContext()).queryRuns();
-    	}
-    }
 
+    private static class RunListCursorLoader extends SQLiteCursorLoader {
+
+        public RunListCursorLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected Cursor loadCursor() {
+            // query the list of runs
+            return RunManager.get(getContext()).queryRuns();
+        }
+        
+    }
+    
     private static class RunCursorAdapter extends CursorAdapter {
         
         private RunCursor mRunCursor;
@@ -130,7 +125,4 @@ public class RunListFragment extends ListFragment implements LoaderCallbacks<Cur
         }
         
     }
-    
-    
-    
 }
